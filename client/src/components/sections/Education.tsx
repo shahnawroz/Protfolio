@@ -17,29 +17,59 @@ const education = [
   },
 ];
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, x: -20 },
+  show: { opacity: 1, x: 0 },
+};
+
 export default function Education() {
   return (
     <section id="education" className="py-20">
-      <div className="text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center"
+      >
         <h2 className="text-3xl font-bold">Education</h2>
         <p className="mt-4 text-muted-foreground">
           Academic background and qualifications
         </p>
-      </div>
-      <div className="mt-12">
+      </motion.div>
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="mt-12"
+      >
         {education.map((item, index) => (
           <motion.div
             key={item.degree}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.2 }}
-            viewport={{ once: true }}
+            variants={item}
+            whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 300 } }}
           >
             <Card className="mb-6">
               <CardHeader className="flex flex-row items-center gap-4">
-                <div className="rounded-full bg-primary/10 p-2">
+                <motion.div 
+                  className="rounded-full bg-primary/10 p-2"
+                  whileHover={{ 
+                    rotate: 360,
+                    transition: { duration: 0.6 }
+                  }}
+                >
                   <GraduationCap className="h-4 w-4 text-primary" />
-                </div>
+                </motion.div>
                 <div>
                   <CardTitle className="text-xl">{item.degree}</CardTitle>
                   <p className="text-sm text-muted-foreground">
@@ -53,7 +83,7 @@ export default function Education() {
             </Card>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }
