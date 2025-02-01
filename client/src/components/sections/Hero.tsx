@@ -3,6 +3,13 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
 export default function Hero() {
+  const scrollToProjects = () => {
+    const projectsSection = document.getElementById('projects');
+    if (projectsSection) {
+      projectsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center py-20">
       <div className="text-center">
@@ -29,14 +36,16 @@ export default function Hero() {
             </Button>
           </div>
         </motion.div>
-        <motion.div
+        <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 1 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer p-2"
+          onClick={scrollToProjects}
+          aria-label="Scroll to projects"
         >
           <ChevronDown className="h-6 w-6 animate-bounce" />
-        </motion.div>
+        </motion.button>
       </div>
     </section>
   );
