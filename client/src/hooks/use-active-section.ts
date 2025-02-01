@@ -4,19 +4,20 @@ export function useActiveSection(sectionIds: string[]): string {
   const [activeSection, setActiveSection] = useState<string>('');
 
   useEffect(() => {
-    // Create an observer for each section
     const observers = sectionIds.map(id => {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            // Only update if the section is more visible than previous ones
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
               setActiveSection(entry.target.id);
             }
           });
         },
         {
-          rootMargin: '-20% 0px -70% 0px', // Adjust these values to make detection more accurate
-          threshold: [0.5], // Require at least 50% visibility
+          // Adjust the root margin to better detect sections
+          rootMargin: '-10% 0px -85% 0px',
+          threshold: [0.3], // Lower threshold for earlier detection
         }
       );
 
@@ -28,7 +29,6 @@ export function useActiveSection(sectionIds: string[]): string {
       return observer;
     });
 
-    // Cleanup function
     return () => {
       observers.forEach(observer => observer.disconnect());
     };

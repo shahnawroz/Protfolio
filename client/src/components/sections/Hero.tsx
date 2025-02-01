@@ -3,10 +3,16 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 
 export default function Hero() {
-  const scrollToProjects = () => {
+  const scrollToProjects = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     const projectsSection = document.getElementById('projects');
     if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: 'smooth' });
+      const navHeight = 56; // Height of the navbar (14 * 4)
+      const targetPosition = projectsSection.offsetTop - navHeight;
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -29,10 +35,10 @@ export default function Hero() {
           </p>
           <div className="mt-8 flex justify-center gap-4">
             <Button asChild>
-              <a href="#projects">View Projects</a>
+              <a href="#projects" onClick={(e) => scrollToProjects(e as any)}>View Projects</a>
             </Button>
             <Button variant="outline" asChild>
-              <a href="#contact">Contact Me</a>
+              <a href="#contact" className="scroll-smooth">Contact Me</a>
             </Button>
           </div>
         </motion.div>
