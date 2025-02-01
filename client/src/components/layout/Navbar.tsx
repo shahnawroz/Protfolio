@@ -5,17 +5,19 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { useActiveSection } from "@/hooks/use-active-section";
 
 const links = [
-  { href: "#projects", label: "Projects" },
-  { href: "#experience", label: "Experience" },
-  { href: "#skills", label: "Skills" },
-  { href: "#education", label: "Education" },
-  { href: "#contact", label: "Contact" },
+  { href: "#projects", label: "Projects", id: "projects" },
+  { href: "#experience", label: "Experience", id: "experience" },
+  { href: "#skills", label: "Skills", id: "skills" },
+  { href: "#education", label: "Education", id: "education" },
+  { href: "#contact", label: "Contact", id: "contact" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const activeSection = useActiveSection(links.map(link => link.id));
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -27,13 +29,15 @@ export default function Navbar() {
             </a>
           </Link>
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            {links.map(({ href, label }) => (
+            {links.map(({ href, label, id }) => (
               <a
                 key={href}
                 href={href}
                 className={cn(
                   "transition-colors hover:text-foreground/80",
-                  "text-foreground"
+                  activeSection === id 
+                    ? "text-foreground font-semibold"
+                    : "text-foreground/60"
                 )}
               >
                 {label}
@@ -52,11 +56,16 @@ export default function Navbar() {
             </SheetTrigger>
             <SheetContent side="left">
               <nav className="flex flex-col space-y-4">
-                {links.map(({ href, label }) => (
+                {links.map(({ href, label, id }) => (
                   <a
                     key={href}
                     href={href}
-                    className="text-foreground/60 transition-colors hover:text-foreground"
+                    className={cn(
+                      "transition-colors hover:text-foreground",
+                      activeSection === id 
+                        ? "text-foreground font-semibold"
+                        : "text-foreground/60"
+                    )}
                     onClick={() => setOpen(false)}
                   >
                     {label}
