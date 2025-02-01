@@ -22,74 +22,109 @@ const projects = [
   },
 ];
 
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+};
+
 export default function Projects() {
   return (
     <section id="projects" className="py-20">
-      <div className="text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center"
+      >
         <h2 className="text-3xl font-bold">Projects</h2>
         <p className="mt-4 text-muted-foreground">
           Here are some of my recent projects
         </p>
-      </div>
-      <div className="mt-12 grid gap-6 sm:grid-cols-2">
-        {projects.map((project, index) => (
+      </motion.div>
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="mt-12 grid gap-6 sm:grid-cols-2"
+      >
+        {projects.map((project) => (
           <motion.div
             key={project.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.2 }}
-            viewport={{ once: true }}
+            variants={item}
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 300 }}
           >
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader>
                 <CardTitle>{project.title}</CardTitle>
                 <CardDescription>{project.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="aspect-video overflow-hidden rounded-md">
+                <motion.div 
+                  className="aspect-video overflow-hidden rounded-md"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.2 }}
+                >
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover transition-transform duration-200"
                   />
-                </div>
+                </motion.div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
-                    <span
+                    <motion.span
                       key={tag}
                       className="rounded-full bg-primary/10 px-3 py-1 text-sm text-primary"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       {tag}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
                 <div className="mt-4 flex gap-4">
                   <Button variant="outline" size="sm" asChild>
-                    <a
+                    <motion.a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <Github className="mr-2 h-4 w-4" />
                       GitHub
-                    </a>
+                    </motion.a>
                   </Button>
                   <Button size="sm" asChild>
-                    <a
+                    <motion.a
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
                       <ExternalLink className="mr-2 h-4 w-4" />
                       Live Demo
-                    </a>
+                    </motion.a>
                   </Button>
                 </div>
               </CardContent>
             </Card>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }
