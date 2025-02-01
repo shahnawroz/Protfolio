@@ -36,9 +36,9 @@ export default function Contact() {
               className="h-auto flex-col gap-4 p-6"
               asChild
             >
-              <a href="mailto:john@example.com">
+              <a href="mailto:sh.nawrose@gmail.com">
                 <Mail className="h-6 w-6" />
-                <div className="text-sm font-normal">john@example.com</div>
+                <div className="text-sm font-normal">sh.nawrose@gmail.com</div>
               </a>
             </Button>
             <Button
@@ -47,7 +47,7 @@ export default function Contact() {
               asChild
             >
               <a
-                href="https://github.com/johndoe"
+                href="https://github.com/shahnawroz"
                 target="_blank"
                 rel="noopener noreferrer"
               >
